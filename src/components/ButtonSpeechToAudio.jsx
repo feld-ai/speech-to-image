@@ -3,42 +3,48 @@ import AudioReactRecorder, { RecordState } from 'audio-react-recorder';
 import clsx from 'clsx';
 import { Disc3, Mic } from 'lucide-react';
 
+import { uploadBlob } from '../utils.js';
+
 export const ButtonSpeechToAudio = () => {
   const [recordState, setRecordState] = useState();
 
-  const downHandler = (e) => {
+  const handleRecordingStart = () => {
+    setRecordState(RecordState.START);
+  }
+
+  const handleRecordingStop = () => {
+    setRecordState(RecordState.STOP);
+  }
+
+  const keyDownHandler = (e) => {
     if (e.key === 'Shift') {
-      handleStart();
+      handleRecordingStart();
     }
   }
 
-  const upHandler = (e) => {
+  const keyUpHandler = (e) => {
     if (e.key === 'Shift') {
-      handleStop();
+      handleRecordingStop();
     }
   }
 
   useEffect(() => {
-    window.addEventListener('keydown', downHandler);
-    window.addEventListener('keyup', upHandler);
+    window.addEventListener('keydown', keyDownHandler);
+    window.addEventListener('keyup', keyUpHandler);
 
     return () => {
-      window.removeEventListener('keydown', downHandler);
-      window.removeEventListener('keyup', upHandler);
+      window.removeEventListener('keydown', keyDownHandler);
+      window.removeEventListener('keyup', keyUpHandler);
     };
   }, []);
 
-  const handleStart = () => {
-    setRecordState(RecordState.START);
-  }
-
-  const handleStop = () => {
-    setRecordState(RecordState.STOP);
-  }
-
   const onFinish = (audioData) => {
-    // TODO: probably handle request here
-    console.log('audioData', audioData)
+    uploadBlob(audioData.blob, audioData.type)
+      .then(
+        success => console.log(success)
+      ).catch(
+      error => console.log(error)
+    );
   }
 
   return (
@@ -47,9 +53,9 @@ export const ButtonSpeechToAudio = () => {
 
       <button
         type="button"
-        onMouseDown={handleStart}
-        onMouseUp={handleStop}
-        onMouseLeave={handleStop}
+        onMouseDown={handleRecordingStart}
+        onMouseUp={handleRecordingStop}
+        onMouseLeave={handleRecordingStop}
         className={clsx('app-button', 'shadow', { 'app-button--listening': recordState === 'start' })}
       >
         <span>Click and Hold</span>

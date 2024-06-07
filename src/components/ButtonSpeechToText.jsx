@@ -12,37 +12,38 @@ export const ButtonSpeechToText = () => {
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
 
-  const downHandler = (e) => {
+  const keyDownHandler = (e) => {
     if (e.key === 'Shift') {
       startListening();
     }
   }
 
-  const upHandler = (e) => {
+  const keyUpHandler = (e) => {
     if (e.key === 'Shift') {
-      SpeechRecognition.stopListening();
+      stopListening();
     }
   }
 
   useEffect(() => {
-    window.addEventListener('keydown', downHandler);
-    window.addEventListener('keyup', upHandler);
+    window.addEventListener('keydown', keyDownHandler);
+    window.addEventListener('keyup', keyUpHandler);
 
     return () => {
-      window.removeEventListener('keydown', downHandler);
-      window.removeEventListener('keyup', upHandler);
+      window.removeEventListener('keydown', keyDownHandler);
+      window.removeEventListener('keyup', keyUpHandler);
     };
   }, []);
 
-  const startListening = () => SpeechRecognition.startListening({ continuous: true });
+  const startListening = () => SpeechRecognition.startListening({ continuous: true, language: 'de-DE' });
+  const stopListening = () => SpeechRecognition.stopListening();
 
   return (
     <>
       <button
         type="button"
         onMouseDown={startListening}
-        onMouseUp={SpeechRecognition.stopListening}
-        onMouseLeave={SpeechRecognition.stopListening}
+        onMouseUp={stopListening}
+        onMouseLeave={stopListening}
         className={clsx('app-button', 'shadow', { 'app-button--listening': listening })}
       >
         <span>Click and Hold</span>
@@ -53,7 +54,7 @@ export const ButtonSpeechToText = () => {
       </button>
       <p>{ transcript }</p>
 
-      {!browserSupportsSpeechRecognition && <p>Browser doesn't support speech recognition.</p>}
+      {!browserSupportsSpeechRecognition && <p>Speech recognition is not supported in this browser.</p>}
     </>
   )
     ;
