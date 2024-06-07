@@ -8,7 +8,6 @@ import { useKeys } from '../useKeys.js';
 
 export const ButtonSpeechToAudio = () => {
   const [recordState, setRecordState] = useState();
-  const [audioUrl, setAudioUrl] = useState('');
 
   const handleRecordingStart = () => {
     setRecordState(RecordState.START);
@@ -19,29 +18,6 @@ export const ButtonSpeechToAudio = () => {
   };
 
   useKeys(handleRecordingStart, handleRecordingStop);
-
-
-  // const keyDownHandler = (e) => {
-  //   if (e.key === 'Shift') {
-  //     handleRecordingStart();
-  //   }
-  // }
-  //
-  // const keyUpHandler = (e) => {
-  //   if (e.key === 'Shift') {
-  //     handleRecordingStop();
-  //   }
-  // }
-  //
-  // useEffect(() => {
-  //   window.addEventListener('keydown', keyDownHandler);
-  //   window.addEventListener('keyup', keyUpHandler);
-  //
-  //   return () => {
-  //     window.removeEventListener('keydown', keyDownHandler);
-  //     window.removeEventListener('keyup', keyUpHandler);
-  //   };
-  // }, []);
 
   const onFinish = (audioData) => {
     uploadBlob(audioData.blob, audioData.type)
