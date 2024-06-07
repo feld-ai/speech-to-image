@@ -51,3 +51,10 @@ h1 {
 .audio-react-recorder {
   display: none;
 }
+
+.debug-keycode {
+  position: fixed;
+  top: 4px;
+  left: 4px;
+  font-size: 12px;
+}
