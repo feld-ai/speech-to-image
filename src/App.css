@@ -85,6 +85,15 @@ button {
   animation: pulsate 2s ease-out infinite;
 }
 
+.app-button:disabled::before,
+.app-button:disabled::after {
+  background: #ccc;
+}
+
+.app-button:disabled svg {
+  stroke: #999;
+}
+
 @keyframes pulsate {
   0%   { filter: blur(15px); }
   50%  { filter: blur(5px); }

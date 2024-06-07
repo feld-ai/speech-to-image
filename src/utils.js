@@ -1,12 +1,11 @@
+const API_URL = 'http://45.152.53.35:5555/generate';
+
 export async function uploadBlob(audioBlob, fileType) {
   const formData = new FormData();
   formData.append('file', audioBlob, `audio_recording_${Date.now()}`);
   formData.append('type', fileType || 'wav');
 
-  // Your server endpoint to upload audio:
-  const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
-
-  const response = await fetch(apiUrl, {
+  const response = await fetch(API_URL, {
     method: 'POST',
     // cache: 'no-cache',
     body: formData, // todo: or maybe just body: audioBlob
@@ -22,6 +21,20 @@ export async function uploadBlob(audioBlob, fileType) {
     // headers: {
     //   'Content-type': 'application/json; charset=UTF-8',
     // },
+  });
+
+  return response;
+}
+
+export async function uploadText(text) {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    body: JSON.stringify({
+      prompt: text,
+    }),
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
   });
 
   return response;

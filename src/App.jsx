@@ -28,8 +28,8 @@ const App = () => {
       </header>
       <main className="main">
         <h1>Speech to Image</h1>
-        <ButtonSpeechToAudio />
-        {/*<ButtonSpeechToText />*/}
+        {/*<ButtonSpeechToAudio />*/}
+        <ButtonSpeechToText />
       </main>
       <footer className="footer">
         with

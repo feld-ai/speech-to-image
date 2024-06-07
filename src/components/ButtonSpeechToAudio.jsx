@@ -8,6 +8,7 @@ import { useKeys } from '../useKeys.js';
 
 export const ButtonSpeechToAudio = () => {
   const [recordState, setRecordState] = useState();
+  const [loading, setLoading] = useState(false);
 
   const handleRecordingStart = () => {
     setRecordState(RecordState.START);
@@ -20,11 +21,18 @@ export const ButtonSpeechToAudio = () => {
   useKeys(handleRecordingStart, handleRecordingStop);
 
   const onFinish = (audioData) => {
+    setLoading(true);
     uploadBlob(audioData.blob, audioData.type)
       .then(
-        success => console.log(success)
+        (success) => {
+          setLoading(false);
+          console.log(success);
+        }
       ).catch(
-      error => console.log(error)
+      (error) => {
+        setLoading(false);
+        console.log(error);
+      }
     );
   }
 
@@ -34,6 +42,7 @@ export const ButtonSpeechToAudio = () => {
 
       <button
         type="button"
+        disabled={loading}
         onMouseDown={handleRecordingStart}
         onMouseUp={handleRecordingStop}
         onMouseLeave={handleRecordingStop}
