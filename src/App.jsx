@@ -1,7 +1,8 @@
 import { Heart, MountainSnow } from 'lucide-react';
 
 import './App.css'
-import { Button } from './components/Button.jsx';
+import { ButtonSpeechToAudio } from './components/ButtonSpeechToAudio.jsx';
+import { ButtonSpeechToText } from './components/ButtonSpeechToText.jsx';
 
 const App = () => {
   return (
@@ -11,7 +12,8 @@ const App = () => {
       </header>
       <main className="main">
         <h1>Speech to Image</h1>
-        <Button/>
+        {/*<ButtonSpeechToText/>*/}
+        <ButtonSpeechToAudio />
       </main>
       <footer className="footer">
         with

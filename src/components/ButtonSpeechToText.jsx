@@ -1,10 +1,10 @@
 import 'regenerator-runtime/runtime'
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Mic, Disc3 } from 'lucide-react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import clsx from 'clsx';
 
-export const Button = () => {
+export const ButtonSpeechToText = () => {
   const {
     transcript,
     listening,
@@ -12,13 +12,13 @@ export const Button = () => {
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
 
-  function downHandler(e) {
+  const downHandler = (e) => {
     if (e.key === 'Shift') {
       startListening();
     }
   }
 
-  function upHandler(e) {
+  const upHandler = (e) => {
     if (e.key === 'Shift') {
       SpeechRecognition.stopListening();
     }

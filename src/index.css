@@ -47,3 +47,7 @@ h1 {
   margin-bottom: 1.5rem;
   font-size: 3rem;
 }
+
+.audio-react-recorder {
+  display: none;
+}
