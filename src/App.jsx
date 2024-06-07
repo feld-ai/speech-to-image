@@ -3,10 +3,26 @@ import { Heart, MountainSnow } from 'lucide-react';
 import './App.css'
 import { ButtonSpeechToAudio } from './components/ButtonSpeechToAudio.jsx';
 import { ButtonSpeechToText } from './components/ButtonSpeechToText.jsx';
+import { useEffect, useState } from 'react';
 
 const App = () => {
+  const [keyCode, setKeyCode] = useState();
+
+  const keyDownHandler = (e) => {
+    setKeyCode(e.keyCode);
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', keyDownHandler);
+
+    return () => {
+      window.removeEventListener('keydown', keyDownHandler);
+    };
+  }, []);
+
   return (
     <div className="page">
+      <div className="debug-keycode">{keyCode}</div>
       <header className="header">
 
       </header>
