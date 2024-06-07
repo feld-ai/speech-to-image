@@ -1,41 +1,20 @@
 import 'regenerator-runtime/runtime'
-import { useEffect } from 'react';
 import { Mic, Disc3 } from 'lucide-react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import clsx from 'clsx';
+import { useKeys } from '../useKeys.js';
 
 export const ButtonSpeechToText = () => {
+  const startListening = () => SpeechRecognition.startListening({ continuous: true, language: 'de-DE' });
+  const stopListening = () => SpeechRecognition.stopListening();
+  useKeys(startListening, stopListening);
+
   const {
     transcript,
     listening,
     // resetTranscript,
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
-
-  const keyDownHandler = (e) => {
-    if (e.key === 'Shift') {
-      startListening();
-    }
-  }
-
-  const keyUpHandler = (e) => {
-    if (e.key === 'Shift') {
-      stopListening();
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('keydown', keyDownHandler);
-    window.addEventListener('keyup', keyUpHandler);
-
-    return () => {
-      window.removeEventListener('keydown', keyDownHandler);
-      window.removeEventListener('keyup', keyUpHandler);
-    };
-  }, []);
-
-  const startListening = () => SpeechRecognition.startListening({ continuous: true, language: 'de-DE' });
-  const stopListening = () => SpeechRecognition.stopListening();
 
   return (
     <>

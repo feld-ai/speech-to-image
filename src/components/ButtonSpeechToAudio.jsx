@@ -1,42 +1,47 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AudioReactRecorder, { RecordState } from 'audio-react-recorder';
 import clsx from 'clsx';
 import { Disc3, Mic } from 'lucide-react';
 
 import { uploadBlob } from '../utils.js';
+import { useKeys } from '../useKeys.js';
 
 export const ButtonSpeechToAudio = () => {
   const [recordState, setRecordState] = useState();
+  const [audioUrl, setAudioUrl] = useState('');
 
   const handleRecordingStart = () => {
     setRecordState(RecordState.START);
-  }
+  };
 
   const handleRecordingStop = () => {
     setRecordState(RecordState.STOP);
-  }
+  };
 
-  const keyDownHandler = (e) => {
-    if (e.key === 'Shift') {
-      handleRecordingStart();
-    }
-  }
+  useKeys(handleRecordingStart, handleRecordingStop);
 
-  const keyUpHandler = (e) => {
-    if (e.key === 'Shift') {
-      handleRecordingStop();
-    }
-  }
 
-  useEffect(() => {
-    window.addEventListener('keydown', keyDownHandler);
-    window.addEventListener('keyup', keyUpHandler);
-
-    return () => {
-      window.removeEventListener('keydown', keyDownHandler);
-      window.removeEventListener('keyup', keyUpHandler);
-    };
-  }, []);
+  // const keyDownHandler = (e) => {
+  //   if (e.key === 'Shift') {
+  //     handleRecordingStart();
+  //   }
+  // }
+  //
+  // const keyUpHandler = (e) => {
+  //   if (e.key === 'Shift') {
+  //     handleRecordingStop();
+  //   }
+  // }
+  //
+  // useEffect(() => {
+  //   window.addEventListener('keydown', keyDownHandler);
+  //   window.addEventListener('keyup', keyUpHandler);
+  //
+  //   return () => {
+  //     window.removeEventListener('keydown', keyDownHandler);
+  //     window.removeEventListener('keyup', keyUpHandler);
+  //   };
+  // }, []);
 
   const onFinish = (audioData) => {
     uploadBlob(audioData.blob, audioData.type)
