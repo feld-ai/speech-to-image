@@ -23,4 +23,6 @@ RUN apk --no-cache -U add python3 && \
     apk upgrade --no-cache -U -a  
 # Patch OpenSSL vulnerability^
 
+RUN which python3
+
 CMD [ "python3", "-m", "http.server", "8000" ]
