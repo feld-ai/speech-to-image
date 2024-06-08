@@ -134,16 +134,13 @@ button {
 }
 
 .image-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   margin: 1.5rem 0 .5rem;
-  gap: 0.5rem;
   padding: 0 0.5rem;
 }
 
 .image-container img {
   max-width: 100%;
-  /*max-height: calc(100vh - 120px);*/
+  max-height: calc(50vh - 150px);
 }
 
 .image-container p {
