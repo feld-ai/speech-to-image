@@ -19,14 +19,28 @@ export const useKeys = (handleStart, handleStop) => {
     e.preventDefault();
     e.stopPropagation();
     console.log(e);
-    handleStart();
+
+    if (e.button === 2) return;
+
+    if (e.button === 0) {
+      handleStart();
+    }
+
+    if (e.button === 1) {
+      window.location.reload();
+    }
   };
 
   const mouseUpHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();
     console.log(e);
-    handleStop();
+
+    if (e.button === 2) return;
+
+    if (e.button === 0) {
+      handleStop();
+    }
   };
 
   useEffect(() => {
