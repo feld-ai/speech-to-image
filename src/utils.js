@@ -1,4 +1,4 @@
-const API_URL = 'http://45.152.53.33:7654/generate';
+const API_URL = 'http://45.152.53.33:7654';
 
 export async function uploadBlob(audioBlob, fileType) {
   const formData = new FormData();
@@ -26,11 +26,12 @@ export async function uploadBlob(audioBlob, fileType) {
   return response;
 }
 
-export async function uploadText(text) {
-  const response = await fetch(API_URL, {
+export async function fetchContent(type, prompt) {
+  const endpoint = type === 'image' ? 'generate' : 'choose_song';
+  const response = await fetch(`${API_URL}/${endpoint}`, {
     method: 'POST',
     body: JSON.stringify({
-      prompt: text,
+      prompt,
     }),
     headers: {
       'Content-type': 'application/json; charset=UTF-8',

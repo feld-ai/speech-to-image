@@ -6,7 +6,7 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import clsx from 'clsx';
 
 import { useKeys } from '../useKeys.js';
-import { uploadText } from '../utils.js';
+import { fetchContent } from '../utils.js';
 
 export const ButtonSpeechToText = () => {
   const startListening = () => SpeechRecognition.startListening({ continuous: true, language: 'de-DE' });
@@ -23,23 +23,49 @@ export const ButtonSpeechToText = () => {
   const [loading, setLoading] = useState(false);
   const [debouncedTranscript] = useDebounce(transcript, 750);
 
+  const [imgSrc, setImgSrc] = useState('');
+  const [yt, setYt] = useState({ link: '', description: '' });
+
   useEffect(() => {
+    function validateImageResponse(response) {
+      console.log('validateImageResponse', response)
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+
+      setLoading(false);
+      resetTranscript();
+      return response;
+    }
+
+    function parseSongResponse(response) {
+      console.log('parseSongResponse', response);
+      // TODO: set link, show youtube video
+      setYt({ link: '', description: '' });
+    }
+
     if (debouncedTranscript) {
       setLoading(true);
-      uploadText(debouncedTranscript)
-        .then(
-          (success) => {
-            console.log(success);
+
+      fetchContent('image', debouncedTranscript)
+        .then(validateImageResponse)
+        .then(response => response.blob())
+        .then(blob => {
+          setImgSrc(URL.createObjectURL(blob));
+        })
+        .catch(
+          (err) => {
+            console.log(err);
             setLoading(false);
             resetTranscript();
           }
-        ).catch(
-          (error) => {
-            console.log(error);
-            setLoading(false);
-            resetTranscript();
-          }
-        )
+        );
+
+      fetchContent('song', debouncedTranscript)
+        .then(parseSongResponse)
+        .catch((err) => {
+          console.log(err);
+        })
     }
   }, [debouncedTranscript]);
 
@@ -59,6 +85,10 @@ export const ButtonSpeechToText = () => {
         <Mic className="app-button__icon app-button__icon--static" color="#242424" size={24} />
         </span>
       </button>
+
+      <div className="image-container">
+        <img src={imgSrc} alt=""/>
+      </div>
 
       {!browserSupportsSpeechRecognition && <p>Speech recognition is not supported in this browser.</p>}
     </>
