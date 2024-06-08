@@ -27,7 +27,7 @@ const App = () => {
 
       </header>
       <main className="main">
-        <h1>Speech to Image</h1>
+        <h1>Ki busche</h1>
         {/*<ButtonSpeechToAudio />*/}
         <ButtonSpeechToText />
       </main>
