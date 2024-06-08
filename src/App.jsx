@@ -23,6 +23,20 @@ const App = () => {
   return (
     <div className="page">
       <div className="debug-keycode">{keyCode}</div>
+      <div className="instructions">
+        <b>Anleitung</b>
+        <ul>
+          <li>
+            Reset mit mittlerem Mausknopf.
+          </li>
+          <li>
+            Linke Maustaste drücken & halten. Sprechen. Linke Maustause loslassen.
+          </li>
+          <li>
+            Genießen und Tanzen.
+          </li>
+        </ul>
+      </div>
       <header className="header">
 
       </header>
