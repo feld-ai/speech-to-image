@@ -1,4 +1,4 @@
-const API_URL = 'http://45.152.53.35:5555/generate';
+const API_URL = 'http://45.152.53.33:7654/generate';
 
 export async function uploadBlob(audioBlob, fileType) {
   const formData = new FormData();
