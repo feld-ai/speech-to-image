@@ -73,7 +73,7 @@ export const ButtonSpeechToText = () => {
         .then((res) => {
           if (res) {
             const replacedLink = res.song_link.replace('watch?v=', 'embed/');
-            setYt({ link: `${replacedLink}?autoplay=1&mute=1`, description: res.reason_for_song });
+            setYt({ link: `${replacedLink}?autoplay=1`, description: res.reason_for_song });
           }
         })
         .catch((err) => {
