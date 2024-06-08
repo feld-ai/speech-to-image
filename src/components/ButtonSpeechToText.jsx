@@ -105,7 +105,7 @@ export const ButtonSpeechToText = () => {
         </div>
         <div>
           {yt.description && <p>{yt.description}</p>}
-          {yt.link && (
+          {yt.link && !loading && (
             <YoutubeEmbed link={yt.link} />
           )}
         </div>
