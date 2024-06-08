@@ -7,6 +7,7 @@ import clsx from 'clsx';
 
 import { useKeys } from '../useKeys.js';
 import { fetchContent } from '../utils.js';
+import { YoutubeEmbed } from './YoutubeEmbed.jsx';
 
 export const ButtonSpeechToText = () => {
   const startListening = () => SpeechRecognition.startListening({ continuous: true, language: 'de-DE' });
@@ -38,10 +39,15 @@ export const ButtonSpeechToText = () => {
       return response;
     }
 
-    function parseSongResponse(response) {
-      console.log('parseSongResponse', response);
-      // TODO: set link, show youtube video
-      setYt({ link: '', description: '' });
+    function validateSongResponse(response) {
+      console.log('validateSongResponse', response);
+      // console.log('validateSongResponse', response.blob());
+
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+
+      return response;
     }
 
     if (debouncedTranscript) {
@@ -62,7 +68,14 @@ export const ButtonSpeechToText = () => {
         );
 
       fetchContent('song', debouncedTranscript)
-        .then(parseSongResponse)
+        .then(validateSongResponse)
+        .then(response => response.json())
+        .then((res) => {
+          if (res) {
+            const replacedLink = res.song_link.replace('watch?v=', 'embed/');
+            setYt({ link: `${replacedLink}?autoplay=1`, description: res.reason_for_song });
+          }
+        })
         .catch((err) => {
           console.log(err);
         })
@@ -87,7 +100,15 @@ export const ButtonSpeechToText = () => {
       </button>
 
       <div className="image-container">
-        <img src={imgSrc} alt=""/>
+        <div>
+          <img src={imgSrc} alt="" />
+        </div>
+        <div>
+          {yt.description && <p>{yt.description}</p>}
+          {yt.link && (
+            <YoutubeEmbed link={yt.link} />
+          )}
+        </div>
       </div>
 
       {!browserSupportsSpeechRecognition && <p>Speech recognition is not supported in this browser.</p>}

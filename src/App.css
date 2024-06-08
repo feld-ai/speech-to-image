@@ -11,8 +11,7 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem 0;
-  /*margin-top: auto;*/
+  padding: .5rem 0;
 }
 
 .footer svg {
@@ -135,12 +134,20 @@ button {
 }
 
 .image-container {
-  margin: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 1.5rem 0 .5rem;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
 }
 
 .image-container img {
   max-width: 100%;
-  max-height: calc(100vh - 120px);
+  /*max-height: calc(100vh - 120px);*/
+}
+
+.image-container p {
+  font-size: .85rem;
 }
 
 .video-responsive {
