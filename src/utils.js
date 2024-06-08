@@ -1,4 +1,5 @@
-const API_URL = 'http://45.152.53.33:7654';
+const OLD_API_URL = 'http://45.152.53.33:7654';
+const API_URL = 'https://dusche-back.feld.ai';
 
 export async function uploadBlob(audioBlob, fileType) {
   const formData = new FormData();
